@@ -110,10 +110,23 @@ setupOpen.addEventListener('click', function() {
   openPopup();
 });
 
+setupOpen.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
 // Закрытие окна настроек
 setupClose.addEventListener('click', function() {
   closePopup();
 });
+
+setupClose.addEventListener('keydown', function(evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
 
 
 // Валидация формы ввода имени
@@ -139,7 +152,7 @@ userNameInput.addEventListener('input', function (evt) {
 });
 
 // Меняем цвет глаз
-setupWizard.addEventListener('click', function() {
+setupEyes.addEventListener('click', function() {
   setupEyes.style.fill = EYECOLORS[getRandomInt (0, (EYECOLORS.length-1) )];
  });
 
