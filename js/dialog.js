@@ -9,24 +9,20 @@ window.setup = document.querySelector('.setup');
 
 
   // Ивенты закрытия и открытия поп-ап настроек
-  setupOpen.addEventListener('click', function () {
+  setupOpen.addEventListener('click', function() {
     openPopup();
   });
 
-  setupOpen.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      openPopup();
-    }
+  setupOpen.addEventListener('keydown', function(evt) {
+    window.util.isEnterEvent(evt, openPopup);
   });
 
-  setupClose.addEventListener('click', function () {
+  setupClose.addEventListener('click', function() {
     closePopup();
   });
 
-  setupClose.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
-      closePopup();
-    }
+  setupClose.addEventListener('keydown', function(evt) {
+    window.util.isEnterEvent(evt, closePopup);
   });
 
 
@@ -41,7 +37,7 @@ window.setup = document.querySelector('.setup');
     };
 
     function onMouseMove(moveEvt) {
-      moveEvt.preventDefault(); 
+      moveEvt.preventDefault();
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -72,10 +68,8 @@ window.setup = document.querySelector('.setup');
 
   // Область функций
 
-  function onPopupEscPress(evt) {
-    if (evt.keyCode === 27) {
-      closePopup();
-    }
+  function onPopupEscPress (evt) {
+    window.util.isEscEvent(evt, closePopup);
   };
 
   function openPopup() {

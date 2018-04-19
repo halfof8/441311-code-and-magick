@@ -17,6 +17,10 @@
   var draggedItem = null;
   var artifactsElement = document.querySelector('.setup-artifacts');
 
+  var switcherShop = false;
+  var copyNumber = 1;
+
+
 
   // Обработчики перетаскивания элементов из магазина
   shopElement.addEventListener('dragstart', function (evt) {
@@ -27,18 +31,41 @@
     }
   });
 
+
+  // Обработчики перетаскивания элементов из инвентаря
+  artifactsElement.addEventListener('dragstart', function (evt) {
+    if (evt.target.tagName.toLowerCase() === 'img') {
+      draggedItem = evt.target;
+      artifactsElement.style.border = '2px dashed red';
+      evt.dataTransfer.setData('text/plain', evt.target.alt);
+    }
+  });
+
+
   // Обработчики перетаскивания элементов в инвентарь
   artifactsElement.addEventListener('dragover', function (evt) {
     evt.preventDefault();
     return false;
   });
 
+
   artifactsElement.addEventListener('drop', function (evt) {
     evt.target.style.backgroundColor = '';
     artifactsElement.style.border = '';
-    evt.target.appendChild(draggedItem);
+
+    if (evt.target.tagName.toLowerCase() === 'img') {
+      alert('cell is occupied');
+    } else if ( draggedItem.parentNode.parentNode.className == 'setup-artifacts-shop') {
+      var nodeCopy = draggedItem.cloneNode(true);
+      nodeCopy.id = "copy number " + copyNumber; /* We cannot use the same ID */
+      evt.target.appendChild(nodeCopy);
+      copyNumber++;
+    } else {
+      evt.target.appendChild(draggedItem);
+    }
     evt.preventDefault();
   });
+
 
   artifactsElement.addEventListener('dragenter', function (evt) {
     evt.target.style.backgroundColor = 'yellow';
