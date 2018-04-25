@@ -17,9 +17,11 @@
   var draggedItem = null;
   var artifactsElement = document.querySelector('.setup-artifacts');
 
-  var switcherShop = false;
   var copyNumber = 1;
 
+  var similarListElement = setup.querySelector('.setup-similar-list');
+
+  var wizards = window.createWizards(4);
 
 
   // Обработчики перетаскивания элементов из магазина
@@ -55,7 +57,7 @@
 
     if (evt.target.tagName.toLowerCase() === 'img') {
       alert('cell is occupied');
-    } else if ( draggedItem.parentNode.parentNode.className == 'setup-artifacts-shop') {
+    } else if (draggedItem.parentNode.parentNode.className == 'setup-artifacts-shop') {
       var nodeCopy = draggedItem.cloneNode(true);
       nodeCopy.id = "copy number " + copyNumber; /* We cannot use the same ID */
       evt.target.appendChild(nodeCopy);
@@ -102,6 +104,16 @@
       target.setCustomValidity('');
     }
   });
+
+  // Показаваем область с магами
+  setup.querySelector('.setup-similar').classList.remove('hidden');
+
+  // Добавляем магов в область похожих магов
+  for (var i = 0; i < wizards.length; i++) {
+    fragment.appendChild(window.renderWizard(wizards[i]));
+  }
+
+  similarListElement.appendChild(fragment);
 
 
   // Меняем цвет глаз
