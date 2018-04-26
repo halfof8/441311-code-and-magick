@@ -30,6 +30,7 @@ window.util = (function () {
         array[randomIndex] = temporaryValue;
       }
       return array;
+    }
   }
-}
 })();
+

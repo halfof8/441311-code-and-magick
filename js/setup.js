@@ -1,13 +1,14 @@
+// Файл setup.js
 'use strict';
 
 (function () {
 
-  // Определяем фрагмент
-  var fragment = document.createDocumentFragment();
-
   // Ищем контролы
   var setupSubmit = setup.querySelector('.setup-submit');
   var userNameInput = setup.querySelector('.setup-user-name');
+  var form = window.setup.querySelector('.setup-wizard-form');
+
+  console.log(form);
 
   var wizard = setup.querySelector('.wizard');
   var wizardEyes = wizard.querySelector('.wizard-eyes');
@@ -20,8 +21,6 @@
   var copyNumber = 1;
 
   var similarListElement = setup.querySelector('.setup-similar-list');
-
-  var wizards = window.createWizards(4);
 
 
   // Обработчики перетаскивания элементов из магазина
@@ -82,7 +81,6 @@
   });
 
 
-
   // Валидация формы ввода имени
   userNameInput.addEventListener('invalid', function (evt) {
     if (userNameInput.validity.tooShort) {
@@ -105,22 +103,46 @@
     }
   });
 
-  // Показаваем область с магами
-  setup.querySelector('.setup-similar').classList.remove('hidden');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), window.closePopup(), errorHandler);
+    evt.preventDefault();
+  });
 
-  // Добавляем магов в область похожих магов
-  for (var i = 0; i < wizards.length; i++) {
-    fragment.appendChild(window.renderWizard(wizards[i]));
-  }
+  // Рисуем вошлебников
+  function recievedHandler(wizards) {
+    var fragment = document.createDocumentFragment();
 
-  similarListElement.appendChild(fragment);
+    // перемешаем массив волшебников
+    wizards = window.util.shuffle(wizards);
 
+    for (var i = 0; i < 4; i++) {
+      fragment.appendChild(window.renderWizard(wizards[i]));
+    }
+    similarListElement.appendChild(fragment);
+
+    window.setup.querySelector('.setup-similar').classList.remove('hidden');
+  };
+
+  // Рисуем див с ошибкой
+  function errorHandler(errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  // Загружаем данные похожих волшебников
+  window.backend.load(recievedHandler, errorHandler);
 
   // Меняем цвет глаз
   wizardEyes.addEventListener('click', function () {
     window.colorize(wizardEyes);
   });
-
 
   // Меняем цвет фаерболов
   wizardFireball.addEventListener('click', function () {
@@ -128,3 +150,4 @@
   });
 
 })();
+

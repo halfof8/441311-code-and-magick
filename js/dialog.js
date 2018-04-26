@@ -18,11 +18,11 @@ window.setup = document.querySelector('.setup');
   });
 
   setupClose.addEventListener('click', function() {
-    closePopup();
+    window.closePopup();
   });
 
   setupClose.addEventListener('keydown', function(evt) {
-    window.util.isEnterEvent(evt, closePopup);
+    window.util.isEnterEvent(evt, window.closePopup);
   });
 
 
@@ -79,7 +79,7 @@ window.setup = document.querySelector('.setup');
     document.addEventListener('keydown', onPopupEscPress);
   };
 
-  function closePopup() {
+  window.closePopup = function () {
     setup.classList.add('hidden');
     document.removeEventListener('keydown', onPopupEscPress);
   };
