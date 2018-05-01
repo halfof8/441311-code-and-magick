@@ -2,10 +2,9 @@
 'use strict';
 
 window.backend = (function () {
-  var URL = 'https://js.dump.academy/code-and-magick/data';
-
+  
   return {
-    load: function (onLoad, onError) {
+    load: function (URL, onLoad, onError) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
 
@@ -49,7 +48,6 @@ window.backend = (function () {
 
       xhr.timeout = 1; // 10s
 
-      console.log(data);
       xhr.open('POST', URL);
       xhr.send(data);
     }

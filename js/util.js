@@ -30,6 +30,10 @@ window.util = (function () {
         array[randomIndex] = temporaryValue;
       }
       return array;
+    },
+    getRandomElement : function (array) {
+      var randomElementIndex = Math.floor(Math.random() * array.length);
+      return array[randomElementIndex];
     }
   }
 })();

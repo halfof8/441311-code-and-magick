@@ -8,12 +8,6 @@
   var userNameInput = setup.querySelector('.setup-user-name');
   var form = window.setup.querySelector('.setup-wizard-form');
 
-  console.log(form);
-
-  var wizard = setup.querySelector('.wizard');
-  var wizardEyes = wizard.querySelector('.wizard-eyes');
-  var wizardFireball = setup.querySelector('.setup-fireball-wrap');
-
   var shopElement = document.querySelector('.setup-artifacts-shop');
   var draggedItem = null;
   var artifactsElement = document.querySelector('.setup-artifacts');
@@ -103,51 +97,23 @@
     }
   });
 
+  // Отправляем данные и закрываем форму
   form.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(form), window.closePopup(), errorHandler);
     evt.preventDefault();
   });
 
-  // Рисуем вошлебников
-  function recievedHandler(wizards) {
-    var fragment = document.createDocumentFragment();
-
-    // перемешаем массив волшебников
-    wizards = window.util.shuffle(wizards);
-
-    for (var i = 0; i < 4; i++) {
-      fragment.appendChild(window.renderWizard(wizards[i]));
-    }
-    similarListElement.appendChild(fragment);
-
-    window.setup.querySelector('.setup-similar').classList.remove('hidden');
-  };
-
-  // Рисуем див с ошибкой
-  function errorHandler(errorMessage) {
+  function errorHandler (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
     node.style.left = 0;
     node.style.right = 0;
     node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
+    
+    node.textContent = errorMessage; 
     document.body.insertAdjacentElement('afterbegin', node);
-  };
-
-  // Загружаем данные похожих волшебников
-  window.backend.load(recievedHandler, errorHandler);
-
-  // Меняем цвет глаз
-  wizardEyes.addEventListener('click', function () {
-    window.colorize(wizardEyes);
-  });
-
-  // Меняем цвет фаерболов
-  wizardFireball.addEventListener('click', function () {
-    window.colorize(wizardFireball);
-  });
+  }
 
 })();
 
